@@ -1,0 +1,1342 @@
+
+/* =========================================================
+   CHRONOS — STEAMPUNK MECHANICAL CLOCK
+   Author: Stephen Oyugi
+   HTML5 + CSS3 + Inline SVG
+========================================================= */
+
+/* 01. DESIGN TOKENS */
+
+:root {
+  --bg: #11100e;
+  --panel: #1b1915;
+  --panel-light: #252119;
+
+  --gold: #d9ad58;
+  --gold-bright: #ffe2a0;
+  --gold-dark: #805321;
+
+  --copper: #b66b43;
+  --copper-dark: #63351f;
+
+  --cream: #e9d8b5;
+  --muted: #928675;
+
+  --line: rgba(219, 175, 99, .2);
+
+  --mono: "DM Mono", monospace;
+  --serif: "Cinzel", Georgia, serif;
+  --sans: "Inter", Arial, sans-serif;
+}
+
+/* 02. RESET */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  background:
+    radial-gradient(
+      ellipse at 50% 12%,
+      rgba(116, 76, 35, .13),
+      transparent 35%
+    ),
+    var(--bg);
+  color: var(--cream);
+  font-family: var(--sans);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-shell {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: 0 6.5%;
+}
+
+/* 03. HEADER */
+
+.topbar {
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold-bright);
+  font-size: 19px;
+  box-shadow: inset 0 0 12px rgba(217, 173, 88, .12);
+}
+
+.brand-sub {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font: 8px var(--mono);
+  letter-spacing: 2.5px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  color: var(--muted);
+  font: 10px var(--mono);
+  letter-spacing: 1px;
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #b8c18b;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a8bd70;
+  box-shadow: 0 0 10px #a8bd70;
+  animation: status-pulse 1.8s ease-in-out infinite;
+}
+
+/* 04. HERO */
+
+.hero {
+  padding: 86px 0 66px;
+  text-align: center;
+}
+
+.eyebrow,
+.section-index {
+  color: var(--gold);
+  font: 10px var(--mono);
+  letter-spacing: 2.5px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.eyebrow span {
+  width: 25px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero h1 {
+  color: #f2e4c8;
+  font: 500 clamp(40px, 7vw, 78px)/1.1 var(--serif);
+  letter-spacing: 5px;
+}
+
+.hero h1 em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.hero-copy {
+  max-width: 520px;
+  margin: 22px auto 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* 05. WORKBENCH */
+
+.workbench {
+  padding-top: 10px;
+}
+
+.workbench-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.workbench-heading h2,
+.spec-heading h2,
+.engineering h2 {
+  margin-top: 9px;
+  color: var(--cream);
+  font: 500 25px var(--serif);
+}
+
+.workbench-tag {
+  color: var(--muted);
+  font: 9px var(--mono);
+  letter-spacing: 1.5px;
+}
+
+/* 06. MACHINE BACKGROUND */
+
+.machine {
+  position: relative;
+  min-height: 690px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(204, 157, 78, .3);
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      rgba(17, 16, 14, .72),
+      rgba(17, 16, 14, .82)
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 39px,
+      rgba(203, 161, 91, .06) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 39px,
+      rgba(203, 161, 91, .06) 40px
+    ),
+    #211c16;
+
+  box-shadow:
+    inset 0 0 90px rgba(0, 0, 0, .65),
+    0 25px 70px rgba(0, 0, 0, .25);
+}
+
+.machine-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .23;
+
+  background-image:
+    radial-gradient(
+      rgba(232, 187, 112, .4) .7px,
+      transparent .7px
+    );
+
+  background-size: 19px 19px;
+}
+
+.ambient-glow {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  width: 520px;
+  height: 520px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(183, 117, 46, .17),
+      transparent 70%
+    );
+
+  filter: blur(12px);
+}
+
+/* 07. CLOCK CASE */
+
+.clock-assembly {
+  position: absolute;
+  z-index: 5;
+  top: 52px;
+  left: 50%;
+  width: 330px;
+  height: 330px;
+  transform: translateX(-50%);
+}
+
+.clock-case {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f5d98e,
+      #885321 25%,
+      #382416 48%,
+      #c18a3f 72%,
+      #4c3018
+    );
+
+  box-shadow:
+    0 0 0 2px #3b2817,
+    0 0 0 5px #a87331,
+    0 0 0 8px #4c321c,
+    0 15px 45px rgba(0, 0, 0, .65),
+    inset 0 2px 5px rgba(255, 240, 190, .6);
+}
+
+.case-rim {
+  position: absolute;
+  inset: 7px;
+  z-index: 1;
+  border: 2px solid rgba(255, 221, 148, .75);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px rgba(75, 44, 18, .8);
+  pointer-events: none;
+}
+
+.bezel {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #392719,
+      #c18c45 45%,
+      #4a2c17
+    );
+
+  box-shadow: inset 0 3px 9px #1a1109;
+}
+
+.dial {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 2px solid #d3ad6c;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 34% 25%,
+      rgba(255, 255, 255, .3),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle,
+      #f1dfb8 0%,
+      #c9ae7b 66%,
+      #9a7849 100%
+    );
+
+  box-shadow:
+    inset 0 0 0 5px rgba(84, 54, 24, .18),
+    inset 0 0 25px rgba(65, 38, 15, .45);
+}
+
+.dial-inner-ring {
+  position: absolute;
+  inset: 13px;
+  border: 1px solid rgba(91, 59, 27, .48);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(255, 244, 205, .2);
+}
+
+/* 08. ROMAN NUMERALS */
+
+.roman {
+  position: absolute;
+  z-index: 2;
+  color: #51351c;
+  font: 600 16px var(--serif);
+  transform: translate(-50%, -50%);
+}
+
+.roman-xii { left: 50%; top: 10%; }
+.roman-i   { left: 70%; top: 15.5%; }
+.roman-ii  { left: 84%; top: 30%; }
+.roman-iii { left: 90%; top: 50%; }
+.roman-iv  { left: 84%; top: 70%; }
+.roman-v   { left: 70%; top: 84%; }
+.roman-vi  { left: 50%; top: 90%; }
+.roman-vii { left: 30%; top: 84%; }
+.roman-viii{ left: 16%; top: 70%; }
+.roman-ix  { left: 10%; top: 50%; }
+.roman-x   { left: 16%; top: 30%; }
+.roman-xi  { left: 30%; top: 15.5%; }
+
+/* 09. CLOCK TICKS */
+
+.clock-ticks {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.clock-ticks span {
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  width: 2px;
+  height: 8px;
+  border-radius: 2px;
+  background: #76502b;
+  transform-origin: 50% 144px;
+}
+
+.clock-ticks span:nth-child(1)  { transform: rotate(0deg); }
+.clock-ticks span:nth-child(2)  { transform: rotate(30deg); }
+.clock-ticks span:nth-child(3)  { transform: rotate(60deg); }
+.clock-ticks span:nth-child(4)  { transform: rotate(90deg); }
+.clock-ticks span:nth-child(5)  { transform: rotate(120deg); }
+.clock-ticks span:nth-child(6)  { transform: rotate(150deg); }
+.clock-ticks span:nth-child(7)  { transform: rotate(180deg); }
+.clock-ticks span:nth-child(8)  { transform: rotate(210deg); }
+.clock-ticks span:nth-child(9)  { transform: rotate(240deg); }
+.clock-ticks span:nth-child(10) { transform: rotate(270deg); }
+.clock-ticks span:nth-child(11) { transform: rotate(300deg); }
+.clock-ticks span:nth-child(12) { transform: rotate(330deg); }
+
+/* 10. CLOCK BRANDING */
+
+.clock-brand,
+.clock-subtitle {
+  position: absolute;
+  left: 50%;
+  z-index: 3;
+  color: #76502b;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.clock-brand {
+  top: 31%;
+  font: 700 10px var(--serif);
+  letter-spacing: 2px;
+}
+
+.clock-subtitle {
+  top: 37%;
+  font: 6px var(--mono);
+  letter-spacing: 1px;
+}
+
+/* 11. CLOCK HANDS */
+
+.hands {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: 50%;
+}
+
+.hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  border-radius: 50% 50% 2px 2px;
+  transform-origin: 50% 100%;
+}
+
+.hour-hand {
+  width: 7px;
+  height: 62px;
+  margin-left: -3.5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #54391e,
+      #d3a452,
+      #5b3c20
+    );
+
+  transform: rotate(35deg);
+  animation: hour-tick 43200s steps(12, end) infinite;
+}
+
+.minute-hand {
+  width: 4px;
+  height: 94px;
+  margin-left: -2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #70471f,
+      #f4d18a,
+      #70471f
+    );
+
+  transform: rotate(120deg);
+  animation: minute-tick 3600s steps(60, end) infinite;
+}
+
+.second-hand {
+  width: 2px;
+  height: 111px;
+  margin-left: -1px;
+  background: #8c3c24;
+  transform: rotate(210deg);
+  animation: second-tick 60s steps(60, end) infinite;
+}
+
+.second-hand::after {
+  position: absolute;
+  bottom: -12px;
+  left: -3px;
+  width: 8px;
+  height: 8px;
+  content: "";
+  border: 1px solid #8c3c24;
+  border-radius: 50%;
+}
+
+.hand-pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 13px;
+  border: 2px solid #70451e;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #fff0b1,
+      #b57c31 60%,
+      #543318
+    );
+
+  transform: translate(-50%, -50%);
+  box-shadow: 0 1px 4px #553719;
+}
+
+.dial-ornament {
+  position: absolute;
+  bottom: 21%;
+  left: 50%;
+  color: rgba(106, 70, 32, .7);
+  font-size: 15px;
+  transform: translateX(-50%);
+}
+
+/* 12. CASE SCREWS */
+
+.case-screw {
+  position: absolute;
+  z-index: 4;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #563718;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      #f7d58a,
+      #95632a 70%
+    );
+
+  box-shadow: inset 0 0 2px #4b2d14;
+}
+
+.case-screw::after {
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  width: 4px;
+  height: 1px;
+  content: "";
+  background: #5d3a1d;
+  transform: rotate(-35deg);
+}
+
+.screw-one {
+  top: 13px;
+  left: 50%;
+}
+
+.screw-two {
+  top: 50%;
+  right: 13px;
+}
+
+.screw-three {
+  bottom: 13px;
+  left: 50%;
+}
+
+.screw-four {
+  top: 50%;
+  left: 13px;
+}
+
+/* 13. GEAR STAGE */
+
+.gear-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.gear {
+  position: absolute;
+  filter: drop-shadow(0 8px 5px rgba(0, 0, 0, .65));
+}
+
+.gear svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Gear metal outlines and inner details */
+
+.gear-body {
+  stroke: #5e3a19;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.gear-inner {
+  fill: #32251a;
+  stroke: #f0c46e;
+  stroke-width: 3;
+}
+
+.gear-detail {
+  fill: none;
+  stroke: #b98239;
+  stroke-width: 5;
+}
+
+.gear-hub {
+  stroke: #f1cb7d;
+  stroke-width: 3;
+}
+
+.gear-hole {
+  fill: #17120d;
+  stroke: #9e6c2e;
+  stroke-width: 3;
+}
+
+.gear-spokes {
+  fill: #bd8b43;
+  stroke: #69431f;
+  stroke-width: 1.5;
+}
+
+.gear-rivets {
+  fill: #ffe1a0;
+  stroke: #70491e;
+  stroke-width: 1;
+}
+
+/* Individual gear placement and rotation */
+
+.gear-one {
+  top: 390px;
+  left: calc(50% - 215px);
+  width: 200px;
+  height: 200px;
+  animation: rotate-clockwise 18s linear infinite;
+}
+
+.gear-two {
+  top: 410px;
+  left: calc(50% + 4px);
+  width: 160px;
+  height: 160px;
+  animation: rotate-counter 12s linear infinite;
+}
+
+.gear-three {
+  top: 360px;
+  left: calc(50% + 125px);
+  width: 120px;
+  height: 120px;
+  animation: rotate-clockwise 8s linear infinite;
+}
+
+.gear-four {
+  top: 530px;
+  left: calc(50% - 35px);
+  width: 105px;
+  height: 105px;
+  animation: rotate-counter 10s linear infinite;
+}
+
+.gear-five {
+  top: 525px;
+  left: calc(50% - 245px);
+  width: 145px;
+  height: 145px;
+  animation: rotate-counter 15s linear infinite;
+}
+
+/* 14. ESCAPEMENT */
+
+.escapement {
+  position: absolute;
+  z-index: 4;
+  top: 380px;
+  left: calc(50% + 165px);
+  width: 130px;
+  height: 120px;
+}
+
+.escape-wheel {
+  position: absolute;
+  top: 20px;
+  left: 25px;
+  width: 72px;
+  height: 72px;
+
+  border: 9px dotted #bd8740;
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 4px #543519,
+    inset 0 0 0 3px #5a3c20;
+
+  animation: rotate-clockwise 5s steps(12, end) infinite;
+}
+
+.escape-anchor {
+  position: absolute;
+  top: 15px;
+  left: 52px;
+  width: 20px;
+  height: 90px;
+  transform-origin: 50% 50%;
+  animation: anchor-rock 1s ease-in-out infinite alternate;
+}
+
+.anchor-arm {
+  position: absolute;
+  left: 6px;
+  width: 8px;
+  height: 43px;
+  border: 2px solid #e0b45e;
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #70451f,
+      #e8c276,
+      #70451f
+    );
+}
+
+.anchor-left {
+  top: 0;
+  transform: rotate(-35deg);
+  transform-origin: bottom center;
+}
+
+.anchor-right {
+  bottom: 0;
+  transform: rotate(35deg);
+  transform-origin: top center;
+}
+
+.anchor-pivot {
+  position: absolute;
+  top: 39px;
+  left: 1px;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #e7c477;
+  border-radius: 50%;
+  background: #51331b;
+}
+
+.escape-label {
+  position: absolute;
+  top: 103px;
+  width: 100%;
+  color: var(--gold);
+  font: 8px var(--mono);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* 15. MACHINE LABELS */
+
+.machine-caption {
+  position: absolute;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(226, 188, 120, .75);
+  font: 8px var(--mono);
+  letter-spacing: 1.2px;
+}
+
+.caption-line {
+  width: 35px;
+  height: 1px;
+  background: var(--gold-dark);
+}
+
+.caption-left {
+  top: 475px;
+  left: 8%;
+}
+
+.caption-right {
+  top: 535px;
+  right: 8%;
+}
+
+.machine-footer {
+  position: absolute;
+  right: 25px;
+  bottom: 20px;
+  left: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+
+  color: var(--muted);
+  font: 8px var(--mono);
+  letter-spacing: 1px;
+}
+
+/* 16. SPECIFICATIONS */
+
+.specifications {
+  padding: 105px 0 85px;
+}
+
+.spec-heading {
+  margin-bottom: 30px;
+}
+
+.spec-heading h2 {
+  font-size: 30px;
+}
+
+.spec-heading p {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.spec-card {
+  position: relative;
+  min-height: 225px;
+  padding: 27px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #211e18,
+      #171512
+    );
+
+  transition:
+    transform .3s ease,
+    border-color .3s ease;
+}
+
+.spec-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(219, 175, 99, .6);
+}
+
+.spec-number {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  color: rgba(217, 173, 88, .3);
+  font: 11px var(--mono);
+}
+
+.spec-icon {
+  margin-bottom: 17px;
+  color: var(--gold);
+  font-size: 28px;
+}
+
+.spec-card h3 {
+  margin-bottom: 10px;
+  color: var(--cream);
+  font: 500 16px var(--serif);
+}
+
+.spec-card p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.spec-tag {
+  display: inline-block;
+  margin-top: 19px;
+  color: var(--gold);
+  font: 8px var(--mono);
+  letter-spacing: 1px;
+}
+
+/* 17. ENGINEERING NOTES */
+
+.engineering {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: 60px;
+  padding: 40px 0 90px;
+  border-top: 1px solid var(--line);
+}
+
+.engineering h2 {
+  font-size: 29px;
+}
+
+.engineering-copy p {
+  max-width: 590px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 2;
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.tech-list span {
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--gold);
+  font: 8px var(--mono);
+  letter-spacing: .7px;
+}
+
+/* 18. FOOTER */
+
+.footer {
+  min-height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.footer-brand {
+  color: var(--gold);
+  font: 600 11px var(--serif);
+  letter-spacing: 1px;
+}
+
+.footer-brand span {
+  color: var(--muted);
+  font: 8px var(--mono);
+}
+
+.footer-year {
+  font-family: var(--mono);
+}
+
+/* 19. ANIMATIONS */
+
+@keyframes rotate-clockwise {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-counter {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes second-tick {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes minute-tick {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hour-tick {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes anchor-rock {
+  from {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .4;
+  }
+}
+
+/* 20. REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* 21. TABLET */
+
+@media (max-width: 900px) {
+  .page-shell {
+    padding-right: 4%;
+    padding-left: 4%;
+  }
+
+  .machine {
+    min-height: 650px;
+  }
+
+  .clock-assembly {
+    width: 290px;
+    height: 290px;
+  }
+
+  .clock-ticks span {
+    transform-origin: 50% 124px;
+  }
+
+  .gear-one {
+    left: calc(50% - 190px);
+    width: 170px;
+    height: 170px;
+  }
+
+  .gear-two {
+    left: calc(50% + 8px);
+    width: 140px;
+    height: 140px;
+  }
+
+  .gear-three {
+    left: calc(50% + 115px);
+    width: 100px;
+    height: 100px;
+  }
+
+  .gear-four {
+    left: calc(50% - 25px);
+    width: 90px;
+    height: 90px;
+  }
+
+  .gear-five {
+    left: calc(50% - 205px);
+    width: 125px;
+    height: 125px;
+  }
+
+  .escapement {
+    left: calc(50% + 135px);
+    transform: scale(.85);
+    transform-origin: top left;
+  }
+
+  .caption-left {
+    left: 3%;
+  }
+
+  .caption-right {
+    right: 3%;
+  }
+}
+
+/* 22. MOBILE */
+
+@media (max-width: 600px) {
+  .topbar {
+    min-height: 72px;
+  }
+
+  .topbar-right {
+    gap: 0;
+  }
+
+  .edition {
+    display: none;
+  }
+
+  .brand {
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 65px 0 48px;
+  }
+
+  .hero h1 {
+    letter-spacing: 2px;
+  }
+
+  .hero-copy {
+    max-width: 330px;
+    font-size: 12px;
+  }
+
+  .workbench-heading {
+    align-items: start;
+    gap: 15px;
+  }
+
+  .workbench-heading h2 {
+    font-size: 19px;
+  }
+
+  .workbench-tag {
+    padding-top: 8px;
+    font-size: 7px;
+    text-align: right;
+  }
+
+  .machine {
+    min-height: 690px;
+  }
+
+  .clock-assembly {
+    top: 45px;
+    width: 255px;
+    height: 255px;
+  }
+
+  .clock-ticks span {
+    transform-origin: 50% 108px;
+  }
+
+  .roman {
+    font-size: 13px;
+  }
+
+  .hour-hand {
+    height: 48px;
+  }
+
+  .minute-hand {
+    height: 72px;
+  }
+
+  .second-hand {
+    height: 87px;
+  }
+
+  .gear-one {
+    top: 330px;
+    left: calc(50% - 150px);
+    width: 135px;
+    height: 135px;
+  }
+
+  .gear-two {
+    top: 355px;
+    left: calc(50% + 12px);
+    width: 115px;
+    height: 115px;
+  }
+
+  .gear-three {
+    top: 320px;
+    left: calc(50% + 92px);
+    width: 85px;
+    height: 85px;
+  }
+
+  .gear-four {
+    top: 485px;
+    left: calc(50% - 15px);
+    width: 75px;
+    height: 75px;
+  }
+
+  .gear-five {
+    top: 480px;
+    left: calc(50% - 165px);
+    width: 105px;
+    height: 105px;
+  }
+
+  .escapement {
+    top: 430px;
+    left: calc(50% + 95px);
+    transform: scale(.7);
+  }
+
+  .caption-left,
+  .caption-right {
+    display: none;
+  }
+
+  .machine-footer {
+    right: 12px;
+    left: 12px;
+    gap: 8px;
+    font-size: 6px;
+  }
+
+  .specifications {
+    padding: 70px 0 60px;
+  }
+
+  .spec-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .spec-card {
+    min-height: 190px;
+  }
+
+  .engineering {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-bottom: 65px;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    padding: 20px 0;
+  }
+}
+
+/* 23. SMALL MOBILE */
+
+@media (max-width: 380px) {
+  .machine {
+    min-height: 640px;
+  }
+
+  .clock-assembly {
+    width: 225px;
+    height: 225px;
+  }
+
+  .clock-ticks span {
+    transform-origin: 50% 95px;
+  }
+
+  .gear-one {
+    top: 300px;
+    left: calc(50% - 130px);
+    width: 115px;
+    height: 115px;
+  }
+
+  .gear-two {
+    top: 325px;
+    left: calc(50% + 7px);
+    width: 100px;
+    height: 100px;
+  }
+
+  .gear-three {
+    top: 300px;
+    left: calc(50% + 75px);
+    width: 75px;
+    height: 75px;
+  }
+
+  .gear-four {
+    top: 450px;
+    left: calc(50% - 10px);
+    width: 65px;
+    height: 65px;
+  }
+
+  .gear-five {
+    top: 445px;
+    left: calc(50% - 140px);
+    width: 90px;
+    height: 90px;
+  }
+
+  .escapement {
+    top: 405px;
+    left: calc(50% + 75px);
+    transform: scale(.6);
+  }
+}
